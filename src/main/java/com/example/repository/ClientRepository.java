@@ -1,9 +1,10 @@
-package com.example;
+package com.example.repository;
 
 
 
+import com.example.model.Address;
+import com.example.model.Client;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

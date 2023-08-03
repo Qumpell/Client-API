@@ -1,9 +1,8 @@
-package com.example;
+package com.example.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor

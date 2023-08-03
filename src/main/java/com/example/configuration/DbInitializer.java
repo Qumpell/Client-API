@@ -1,18 +1,18 @@
-package com.example;
+package com.example.configuration;
 
+import com.example.model.Address;
+import com.example.model.Client;
+import com.example.repository.AddressRepository;
+import com.example.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.ClientRepository.*;
+import static com.example.repository.ClientRepository.*;
 
 
 
@@ -59,17 +59,20 @@ public class DbInitializer implements CommandLineRunner {
 //        addressRepository.deleteById(1L);
 
 //        clientRepository.deleteById(1L);
-        System.out.println(clientRepository.findAll());
+   //     System.out.println(clientRepository.findAll());
 //        client1.setAddressSet(Collections.emptySet());
 //        clientRepository.delete(client1);
 //        System.out.println(clientRepository.findById(6L));
 //        addressRepository.deleteById(1L);
 //        System.out.println(clientRepository.findAll());
 
-        System.out.println(clientRepository.findAllUsersByName("Jane"));
+     //   System.out.println(clientRepository.findAllUsersByName("Jane"));
 
-        System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
+       // System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
 
-        System.out.println(clientRepository.findAll(hasCountry("Poland")));
+        var onePesel = clientRepository.exists(hasName("Steve"));
+        System.out.println(onePesel);
+
+     //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
     }
 }
