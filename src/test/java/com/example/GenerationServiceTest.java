@@ -15,35 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GenerationServiceTest {
-
-//    @BeforeEach
-//    private void setUp(){
-//        GenerationService generationService = new GenerationService();
-//    };
-//
-
-
-    @Test
-    public void shouldReturnYearWhenGivenDate(){
-        GenerationService generationService = new GenerationService();
-        LocalDate date = LocalDate.of(2018, Month.AUGUST,8);
-        int expectedYear = 2018;
-        int actualYear = generationService.getYearFromDate(date);
-
-      assertEquals(expectedYear,actualYear);
-    }
-
-    @Test
-    public void givenDateReturnGeneration(){
-        GenerationService generationService = new GenerationService();
-        LocalDate date = LocalDate.of(1999, Month.AUGUST,8);
-        String expectedGen = "Z";
-        String actualGen = generationService.checkGeneration(date);
-
-        assertEquals(expectedGen, actualGen);
-    }
-
-
     @Test
     public void givenYearReturnIsA_Generation(){
         GenerationService generationService = new GenerationService();

@@ -4,11 +4,15 @@ import com.example.model.Address;
 import com.example.model.Client;
 import com.example.repository.AddressRepository;
 import com.example.repository.ClientRepository;
+import com.example.service.ClientService;
+import com.example.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Set;
 
@@ -23,14 +27,15 @@ import static com.example.repository.ClientRepository.*;
 public class DbInitializer implements CommandLineRunner {
     private final ClientRepository clientRepository;
     private final AddressRepository addressRepository;
+    private final ClientServiceImpl clientService;
 
     @Override
     public void run(String... args) throws Exception {
-        Client client1 = new Client("Adam", "Kowalski","012345678");
-        Client client2 = new Client("Jane","Zabsaw","12345678");
-        Client client3 = new Client("Max","Zabsaw","012345679");
-        Client client4 = new Client("Steve","Wonder","98765432");
-        Client client5 = new Client("Steve","Wonder","67693232");
+        Client client1 = new Client("Adam", "Kowalski","012345678", LocalDate.of(1955, Month.JANUARY,12));
+        Client client2 = new Client("Jane","Zabsaw","12345678",LocalDate.of(2001, Month.MAY,11));
+        Client client3 = new Client("Max","Zabsaw","012345679",LocalDate.of(2010, Month.FEBRUARY,22));
+        Client client4 = new Client("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
+        Client client5 = new Client("Steve","Wonder","67693232",LocalDate.of(1968, Month.MARCH,30));
 
 
         Address address1 = new Address("Poland");
@@ -53,7 +58,12 @@ public class DbInitializer implements CommandLineRunner {
         client5.setAddressSet(Set.of(address7));
 
 //        addressRepository.saveAll(List.of(address1, address2, address3, address4, address5));
-        clientRepository.saveAll(List.of(client1, client2, client3,client4,client5));
+//        clientRepository.saveAll(List.of(client1, client2, client3,client4,client5));
+          clientService.create(client1);
+          clientService.create(client2);
+          clientService.create(client3);
+          clientService.create(client4);
+          clientService.create(client5);
 
 //        clientRepository.findAll().forEach(c -> System.out.println(c.getAddressSet()));
 //        addressRepository.deleteById(1L);
