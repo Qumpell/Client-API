@@ -31,12 +31,18 @@ public class DbInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Client client1 = new Client("Adam", "Kowalski","012345678", LocalDate.of(1955, Month.JANUARY,12));
-        Client client2 = new Client("Jane","Zabsaw","12345678",LocalDate.of(2001, Month.MAY,11));
-        Client client3 = new Client("Max","Zabsaw","012345679",LocalDate.of(2010, Month.FEBRUARY,22));
-        Client client4 = new Client("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
-        Client client5 = new Client("Steve","Wonder","67693232",LocalDate.of(1968, Month.MARCH,30));
+//        Client client1 = new Client("Adam", "Kowalski","012345678", LocalDate.of(1955, Month.JANUARY,12));
+//        Client client2 = new Client("Jane","Zabsaw","12345678",LocalDate.of(2001, Month.MAY,11));
+//        Client client3 = new Client("Max","Zabsaw","012345679",LocalDate.of(2010, Month.FEBRUARY,22));
+//        Client client4 = new Client("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
+//        Client client5 = new Client("Steve","Wonder","67693232",LocalDate.of(1968, Month.MARCH,30));
 
+        Client client = Client.builder()
+                .name("KEK")
+                .surname("SSS")
+                .peselNumber("1231414")
+                .birthDate(LocalDate.of(1994,Month.AUGUST,12))
+                .build();
 
         Address address1 = new Address("Poland");
         Address address2 = new Address("Belgium");
@@ -51,19 +57,19 @@ public class DbInitializer implements CommandLineRunner {
 //        address1.setClient(client1);
 //        address2.setClient(client2);
 //        address3.setClient(client3);
-        client1.setAddressSet(Set.of(address1,address2));
-        client2.setAddressSet(Set.of(address3));
-        client3.setAddressSet(Set.of(address4,address5));
-        client4.setAddressSet(Set.of(address6));
-        client5.setAddressSet(Set.of(address7));
+//        client1.setAddressSet(Set.of(address1,address2));
+//        client2.setAddressSet(Set.of(address3));
+//        client3.setAddressSet(Set.of(address4,address5));
+//        client4.setAddressSet(Set.of(address6));
+//        client5.setAddressSet(Set.of(address7));
 
 //        addressRepository.saveAll(List.of(address1, address2, address3, address4, address5));
 //        clientRepository.saveAll(List.of(client1, client2, client3,client4,client5));
-          clientService.create(client1);
-          clientService.create(client2);
-          clientService.create(client3);
-          clientService.create(client4);
-          clientService.create(client5);
+//          clientService.create(client1);
+//          clientService.create(client2);
+//          clientService.create(client3);
+//          clientService.create(client4);
+//          clientService.create(client5);
 
 //        clientRepository.findAll().forEach(c -> System.out.println(c.getAddressSet()));
 //        addressRepository.deleteById(1L);
@@ -78,10 +84,11 @@ public class DbInitializer implements CommandLineRunner {
 
      //   System.out.println(clientRepository.findAllUsersByName("Jane"));
 
-       // System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
+        System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
 
         var onePesel = clientRepository.exists(hasName("Steve"));
         System.out.println(onePesel);
+        clientService.create(client);
 
      //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
     }

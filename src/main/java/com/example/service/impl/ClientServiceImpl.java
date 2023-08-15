@@ -1,7 +1,10 @@
 package com.example.service.impl;
 
 import com.example.model.Client;
+import com.example.model.ClientHistory;
+import com.example.repository.ClientHistoryRepository;
 import com.example.repository.ClientRepository;
+import com.example.service.ClientHistoryService;
 import com.example.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final GenerationService generationService;
+    private final ClientHistoryService clientHistoryService;
 
     @Override
     public List<Client> findAll() {
@@ -25,7 +29,13 @@ public class ClientServiceImpl implements ClientService {
     public Client create(Client client) {
         var generationName = generationService.getGenerationOfDate(client.getBirthDate());
         client.setGeneration(generationName);
-        return clientRepository.save(client);
+        Client savedClient = clientRepository.save(client);
+        var history = ClientHistory.builder()
+                .action("CREATE")
+                .clientId(savedClient.getId())
+                .build();
+        clientHistoryService.create(history);
+        return savedClient;
     }
 
     @Override
@@ -33,7 +43,13 @@ public class ClientServiceImpl implements ClientService {
         client.setId(id);
         var generationName = generationService.getGenerationOfDate(client.getBirthDate());
         client.setGeneration(generationName);
-        return clientRepository.save(client);
+        Client updatedClient  = clientRepository.save(client);
+        var history = ClientHistory.builder()
+                .action("UPDATE")
+                .clientId(updatedClient.getId())
+                .build();
+        clientHistoryService.create(history);
+        return updatedClient;
     }
 
     @Override
@@ -49,5 +65,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
+        List<ClientHistory> list = clientHistoryService.findAllByClientId(id);
+        list.forEach(history -> clientHistoryService.deleteById(history.getId()));
     }
 }
