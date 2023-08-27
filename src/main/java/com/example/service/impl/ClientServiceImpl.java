@@ -1,11 +1,14 @@
 package com.example.service.impl;
 
+import com.example.model.Address;
 import com.example.model.Client;
 import com.example.model.ClientHistory;
+import com.example.repository.AddressRepository;
 import com.example.repository.ClientHistoryRepository;
 import com.example.repository.ClientRepository;
 import com.example.service.ClientHistoryService;
 import com.example.service.ClientService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final GenerationService generationService;
     private final ClientHistoryService clientHistoryService;
+    private AddressRepository addressRepository;
 
     @Override
     public List<Client> findAll() {
@@ -27,28 +31,18 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client create(Client client) {
-        var generationName = generationService.getGenerationOfDate(client.getBirthDate());
-        client.setGeneration(generationName);
+        giveClientGeneration(client);
         Client savedClient = clientRepository.save(client);
-        var history = ClientHistory.builder()
-                .action("CREATE")
-                .clientId(savedClient.getId())
-                .build();
-        clientHistoryService.create(history);
+        buildClientHistory(savedClient.getId(), "CREATE");
         return savedClient;
     }
 
     @Override
     public Client update(Long id, Client client) {
         client.setId(id);
-        var generationName = generationService.getGenerationOfDate(client.getBirthDate());
-        client.setGeneration(generationName);
+        giveClientGeneration(client);
         Client updatedClient  = clientRepository.save(client);
-        var history = ClientHistory.builder()
-                .action("UPDATE")
-                .clientId(updatedClient.getId())
-                .build();
-        clientHistoryService.create(history);
+        buildClientHistory(updatedClient.getId(), "UPDATE");
         return updatedClient;
     }
 
@@ -65,7 +59,30 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
-        List<ClientHistory> list = clientHistoryService.findAllByClientId(id);
-        list.forEach(history -> clientHistoryService.deleteById(history.getId()));
+        buildClientHistory(id, "DELETE");
     }
+    @Transactional
+    public void removeAddressFromClient(Long clientId, Long addressId){
+        Client client = clientRepository.findById(clientId).orElse(null);
+        if(client != null){
+            Address addressToRemove = addressRepository.findById(addressId).orElse(null);
+            if(addressToRemove != null){
+                client.getAddressSet().remove(addressToRemove);
+                clientRepository.save(client);
+            }
+        }
+    }
+
+    private void buildClientHistory(Long clientId, String action){
+        var history = ClientHistory.builder()
+                .action(action)
+                .clientId(clientId)
+                .build();
+        clientHistoryService.create(history);
+    }
+    private void giveClientGeneration(Client client){
+        var generationName = generationService.getGenerationOfDate(client.getBirthDate());
+        client.setGeneration(generationName);
+    }
+
 }

@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
@@ -31,9 +30,8 @@ public class Client {
 
     private String generation;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
     @JoinColumn(name = "client_id")
     private Set<Address> addressSet;
-
 
 }

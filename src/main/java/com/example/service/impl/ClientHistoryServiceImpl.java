@@ -50,4 +50,6 @@ public class ClientHistoryServiceImpl implements ClientHistoryService {
     public void deleteById(Long id) {
         clientHistoryRepository.deleteById(id);
     }
+
+
 }
