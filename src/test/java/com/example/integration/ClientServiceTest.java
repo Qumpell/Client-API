@@ -16,6 +16,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -47,6 +49,11 @@ public class ClientServiceTest {
 
     @Test
     public void testAddressDeletionFromClient() {
+        //given
+
+        //when
+//        when(clientRepository.findById(client1.getId())).thenReturn();
+        //then
         clientService.removeAddressFromClient(client1.getId(), address1.getId());
         clientRepository.findById(client1.getId()).ifPresent(updatedClient -> assertEquals(1, updatedClient.getAddressSet().size()));
     }
