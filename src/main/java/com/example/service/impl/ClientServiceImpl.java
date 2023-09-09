@@ -7,6 +7,7 @@ import com.example.repository.AddressRepository;
 import com.example.repository.ClientRepository;
 import com.example.service.ClientHistoryService;
 import com.example.service.ClientService;
+import com.example.service.impl.GenerationService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,17 @@ public class ClientServiceImpl implements ClientService {
     private final GenerationService generationService;
     private final ClientHistoryService clientHistoryService;
     private AddressRepository addressRepository;
+
+
+    public void getAction(Client client,String action){
+        switch (action) {
+            case "put" -> System.out.println("put");
+            case "get" -> System.out.println("get");
+            case "post" -> System.out.println("post");
+            case "delete" -> System.out.println("delete");
+            default -> System.out.println("uknown method");
+        }
+    }
 
     @Override
     public List<Client> findAll() {

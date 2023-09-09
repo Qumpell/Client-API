@@ -1,12 +1,12 @@
 package com.example.exception;
 
 import lombok.Getter;
-import org.aspectj.bridge.IMessage;
 
 import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
 @Getter
-public class GenerationNotFoundException extends RuntimeException{
+public class GenerationNotFoundException extends RuntimeException {
     private final LocalDateTime errorTime;
     private final String errorDetails;
 
