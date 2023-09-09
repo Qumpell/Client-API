@@ -1,4 +1,4 @@
-package com.example;
+package com.example.integration;
 
 import com.example.model.Address;
 import com.example.model.Client;
@@ -59,7 +59,10 @@ public class ClientServiceTest {
     }
     @Test
     public void whenAddressIsRemovedFromClient_ThenAddressIsRemovedFromDatabase() {
+        //given
+        //when
         clientService.removeAddressFromClient(client1.getId(), address1.getId());
+        //then
         Optional<Address> addressFromDatabase = addressRepository.findById(address1.getId());
         assertTrue(addressFromDatabase.isEmpty());
     }

@@ -1,11 +1,10 @@
-package com.example;
+package com.example.unit;
 
 
 import com.example.model.Generation;
 import com.example.service.impl.GenerationService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.time.LocalDate;
@@ -13,16 +12,16 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class GenerationServiceTest {
-
-    @Autowired
-    private GenerationService generationService;
+    private static GenerationService generationService;
+    @BeforeAll
+    public static void setUp(){
+        generationService = new GenerationService();
+    }
 
     @Test
     public void givenYearReturnIsA_Generation(){
         Generation genZ = new Generation("Z", 1996,2003);
-        int year = 2001;
         boolean isGenZ = generationService.checkIfYearIsGeneration(genZ,2001);
 
         assertTrue(isGenZ);

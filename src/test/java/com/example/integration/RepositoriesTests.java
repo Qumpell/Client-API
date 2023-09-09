@@ -1,4 +1,4 @@
-package com.example;
+package com.example.integration;
 
 import com.example.model.Address;
 import com.example.model.Client;

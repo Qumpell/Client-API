@@ -4,7 +4,6 @@ import com.example.model.Address;
 import com.example.model.Client;
 import com.example.model.ClientHistory;
 import com.example.repository.AddressRepository;
-import com.example.repository.ClientHistoryRepository;
 import com.example.repository.ClientRepository;
 import com.example.service.ClientHistoryService;
 import com.example.service.ClientService;
@@ -58,8 +57,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteById(Long id) {
-        clientRepository.deleteById(id);
         buildClientHistory(id, "DELETE");
+        clientRepository.deleteById(id);
     }
     @Transactional
     public void removeAddressFromClient(Long clientId, Long addressId){
