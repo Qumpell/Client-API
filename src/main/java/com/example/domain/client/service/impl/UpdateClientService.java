@@ -18,8 +18,6 @@ public class UpdateClientService implements UpdateClient {
 
     @Override
     public Client updateClient(Client clientInput) {
-//        System.out.println(clientInput.getBirthDate() + "ddsd");
-//        System.out.println("--------------------------------------------");
         var clientData = getClient(clientInput);
         clientData.setName(clientInput.getName());
         clientData.setSurname(clientInput.getSurname());

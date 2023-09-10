@@ -3,6 +3,7 @@ package com.example.domain.client;
 import com.example.domain.client.mapper.ClientMapper;
 import com.example.domain.client.service.impl.UpdateClientService;
 import com.example.dto.ClientDTO;
+import com.example.model.Client;
 import com.example.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,13 @@ public class ClientController {
 //                .orElse(ResponseEntity.notFound().build());
 //    }
     @PostMapping
-    public ResponseEntity<HttpStatus> createClient(
+//    public ResponseEntity<HttpStatus> createClient(
+    public ResponseEntity<Client> createClient(
             @RequestBody ClientDTO clientDTO) {
-        updateClientService.updateClient(clientMapper.fromClientDTO(clientDTO));
+       var updatedClient = updateClientService.updateClient(clientMapper.fromClientDTO(clientDTO));
 
-        return ResponseEntity.ok(HttpStatus.CREATED);
+//        return ResponseEntity.ok(HttpStatus.CREATED);
+        return new ResponseEntity<>(updatedClient,HttpStatus.CREATED);
     }
 //
 //    @PutMapping("/{id}")
