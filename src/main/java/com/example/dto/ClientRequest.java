@@ -12,8 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ClientDTO implements Serializable {
+public class ClientRequest implements Serializable {
 
+    @NotEmpty
+    @Size(max = 30)
+    private String loginInput;
     @NotEmpty
     @Size(max = 20)
     private String nameInput;

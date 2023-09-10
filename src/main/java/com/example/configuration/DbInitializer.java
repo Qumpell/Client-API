@@ -34,10 +34,11 @@ public class DbInitializer implements CommandLineRunner {
 //        Client client1 = new Client("Adam", "Kowalski","012345678", LocalDate.of(1955, Month.JANUARY,12));
 //        Client client2 = new Client("Jane","Zabsaw","12345678",LocalDate.of(2001, Month.MAY,11));
 //        Client client3 = new Client("Max","Zabsaw","012345679",LocalDate.of(2010, Month.FEBRUARY,22));
-//        Client client4 = new Client("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
+//        Client client4 = new Clien,t("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
 //        Client client5 = new Client("Steve","Wonder","67693232",LocalDate.of(1968, Month.MARCH,30));
 
         Client client = Client.builder()
+                .login("test")
                 .name("KEK")
                 .surname("SSS")
                 .peselNumber("12345678")

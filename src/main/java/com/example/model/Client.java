@@ -13,12 +13,14 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "clients", uniqueConstraints = {@UniqueConstraint(columnNames = {"peselNumber"})})
+@Table(name = "clients", uniqueConstraints = {@UniqueConstraint(columnNames = {"peselNumber","login"})})
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String login;
 
     private String name;
 

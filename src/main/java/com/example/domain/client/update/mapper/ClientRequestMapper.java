@@ -1,6 +1,6 @@
-package com.example.domain.client.mapper;
+package com.example.domain.client.update.mapper;
 
-import com.example.dto.ClientDTO;
+import com.example.dto.ClientRequest;
 import com.example.model.Client;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -10,10 +10,11 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedSourcePolicy = ReportingPolicy.WARN,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientMapper {
+public interface ClientRequestMapper {
+    @Mapping(target = "login", source = "loginInput")
     @Mapping(target = "name", source = "nameInput")
     @Mapping(target = "surname", source = "surnameInput")
     @Mapping(target = "peselNumber", source = "clientIdInput")
     @Mapping(target = "birthDate", source = "birthDateInput")
-    Client fromClientDTO(ClientDTO clientDTO);
+    Client fromClientRequest(ClientRequest clientRequest);
 }

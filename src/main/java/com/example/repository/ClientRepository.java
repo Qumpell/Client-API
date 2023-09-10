@@ -29,6 +29,9 @@ public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecif
     static Specification<Client> hasPesel(String peselNumber){
         return (client,criteriaQuery,criteriaBuilder) -> criteriaBuilder.equal(client.get("peselNumber"),peselNumber);
     }
+    static Specification<Client> hasLogin(String login){
+        return (client,criteriaQuery,criteriaBuilder) -> criteriaBuilder.equal(client.get("login"),login);
+    }
 
     static Specification<Client> hasCountry(String country){
         return (client,criteriaQuery,criteriaBuilder) -> {
