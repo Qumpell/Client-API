@@ -29,13 +29,13 @@ public class ClientUpdateController {
     private final ClientRequestMapper clientRequestMapper;
 
 
-    @ApiOperation(value = "Pisze co robi kontroler")
+    @ApiOperation(value = "Update client based of login")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad request", response = ErrorResponseWeb.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden", response = ErrorResponseWeb.class),
             @ApiResponse(code = 404, message = "Not found", response = ErrorResponseWeb.class),
-            @ApiResponse(code = 500, message = "Uknown", response = ErrorResponseWeb.class)
+            @ApiResponse(code = 500, message = "Unknown", response = ErrorResponseWeb.class)
     })
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(path = "/client-update", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +45,6 @@ public class ClientUpdateController {
 
         var updatedClient = updateClientService.updateClient(clientRequestMapper.fromClientRequest(clientRequest));
 
-//        CollectionModel<ClientResponse> clientResponses = CollectionModel.of(List.of(updatedClient),link);
         updatedClient.add(link);
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
