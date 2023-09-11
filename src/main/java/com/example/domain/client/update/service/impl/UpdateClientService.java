@@ -42,6 +42,6 @@ public class UpdateClientService implements UpdateClient {
     }
     public Client getClient(Client client){
         return clientRepository.findOne(hasLogin(client.getLogin())).
-                 orElseThrow(() -> new EntityNotFoundException("Client not found",client.getPeselNumber()));
+                 orElseThrow(() -> new EntityNotFoundException("Client not found",client.getLogin()));
     }
 }
