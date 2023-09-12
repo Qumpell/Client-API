@@ -44,10 +44,21 @@ public class DbInitializer implements CommandLineRunner {
                 .peselNumber("12345678")
                 .birthDate(LocalDate.of(1994,Month.AUGUST,12))
                 .build();
+        Client client1 = client.toBuilder().build();
+        client1.setLogin("a");
+        Client client2 = client.toBuilder().build();
+        client2.setLogin("b");
+        Client client3 = client.toBuilder().build();
+        client3.setLogin("c");
+        Client client4 = client.toBuilder().build();
+        client4.setLogin("d");
+        Client client5 = client.toBuilder().build();
+        client5.setLogin("e");
 
         Address address1 = Address.builder().country("Poland").build();
         client.setAddressSet(Set.of(address1));
         clientRepository.save(client);
+        clientRepository.saveAll(Set.of(client1,client2,client3,client4,client5));
 //        Address address2 = new Address("Belgium");
 //        Address address3 = new Address("Netherlands");
 //        Address address4 = new Address("Germany");
