@@ -39,5 +39,6 @@ public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecif
             return criteriaBuilder.equal(clientAddresses.get("country"), country);
         };
     }
+    void deleteByLogin(String login);
 
 }
