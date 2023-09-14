@@ -19,17 +19,14 @@ public class ClientAddService implements AddClient {
     private final GenerationService generationService;
     @Override
     public Client addClient(Client client) {
-        Optional<Client> clientOptional = clientRepository.findOne(hasLogin(client.getLogin()));
-        if(clientOptional.isEmpty()){
-            giveClientGeneration(client);
-            return clientRepository.save(client);
-        }
-        else{
-
-        }
-
+        giveClientGeneration(client);
+        return clientRepository.save(client);
     }
 
+    public boolean clientExist(Client client){
+        Optional<Client> clientOptional = clientRepository.findOne(hasLogin(client.getLogin()));
+        return clientOptional.isPresent();
+    }
     private void giveClientGeneration(Client client){
         var generationName = generationService.getGenerationOfDate(client.getBirthDate());
         client.setGeneration(generationName);
