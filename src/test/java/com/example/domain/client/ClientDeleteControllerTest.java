@@ -52,7 +52,7 @@ public class ClientDeleteControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(clientDeleteService,times(1)).clientExist(any());
+        verify(clientDeleteService, times(1)).clientExist(any());
     }
 }
 

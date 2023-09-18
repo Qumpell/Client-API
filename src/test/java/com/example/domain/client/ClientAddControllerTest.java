@@ -33,14 +33,14 @@ public class ClientAddControllerTest {
 
 
     @Test
-    public void should_Return_Http_Status_Created_When_Client_Is_Successfully_Created() throws Exception{
+    public void should_Return_Http_Status_Created_When_Client_Is_Successfully_Created() throws Exception {
         //given
         Client clientToCreate = Client.builder()
                 .login("testLogin")
                 .name("Jan")
                 .surname("Kowalski")
                 .addressSet(Collections.emptySet())
-                .birthDate(LocalDate.of(12,1,12))
+                .birthDate(LocalDate.of(12, 1, 12))
                 .peselNumber("12345678")
                 .build();
 
@@ -50,23 +50,23 @@ public class ClientAddControllerTest {
         //when //then
         mockMvc.perform(post("/client/add")
                         .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(clientToCreate)))
+                        .content(objectMapper.writeValueAsString(clientToCreate)))
                 .andExpect(status().isCreated());
 
-        verify(clientAddService,times(1)).clientExist(any());
-        verify(clientAddService,times(1)).addClient(any());
+        verify(clientAddService, times(1)).clientExist(any());
+        verify(clientAddService, times(1)).addClient(any());
 
     }
 
     @Test
-    public void should_Return_Http_Status_Conflict_When_Client_Already_Exists() throws Exception{
+    public void should_Return_Http_Status_Conflict_When_Client_Already_Exists() throws Exception {
         //given
         Client clientToCreate = Client.builder()
                 .login("testLogin")
                 .name("Jan")
                 .surname("Kowalski")
                 .addressSet(Collections.emptySet())
-                .birthDate(LocalDate.of(12,1,12))
+                .birthDate(LocalDate.of(12, 1, 12))
                 .peselNumber("12345678")
                 .build();
 
@@ -78,6 +78,6 @@ public class ClientAddControllerTest {
                         .content(objectMapper.writeValueAsString(clientToCreate)))
                 .andExpect(status().isConflict());
 
-        verify(clientAddService,times(1)).clientExist(any());
+        verify(clientAddService, times(1)).clientExist(any());
     }
 }

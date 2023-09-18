@@ -33,15 +33,15 @@ public class UpdateClientService implements UpdateClient {
             clientData.setLogin(clientInput.getLogin());
             clientData = clientRepository.save(clientData);
             return clientResponseMapper.toClientResponse(clientData);
-        }
-        catch (Exception e){
-            throw new EntityNotFoundException("Client cannot be updated",e.getMessage());
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Client cannot be updated", e.getMessage());
         }
 
 
     }
-    public Client getClient(Client client){
+
+    public Client getClient(Client client) {
         return clientRepository.findOne(hasLogin(client.getLogin())).
-                 orElseThrow(() -> new EntityNotFoundException("Client not found",client.getLogin()));
+                orElseThrow(() -> new EntityNotFoundException("Client not found", client.getLogin()));
     }
 }

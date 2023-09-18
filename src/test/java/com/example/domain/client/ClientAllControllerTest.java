@@ -47,7 +47,7 @@ class ClientAllControllerTest {
                 .surname("Kowalski")
                 .generation("Alpha")
                 .build();
-        List<ClientResponse> clientResponseList = List.of(client1,client2);
+        List<ClientResponse> clientResponseList = List.of(client1, client2);
         given(clientAllService.getAllClients()).willReturn(clientResponseList);
         //when //then
         mockMvc.perform(get("/client/all")
@@ -56,7 +56,7 @@ class ClientAllControllerTest {
                 .andExpect(jsonPath("$.*").exists())
                 .andExpect(jsonPath("$.*").isArray());
 
-        verify(clientAllService,  times(1)).getAllClients();
+        verify(clientAllService, times(1)).getAllClients();
     }
 
     @Test

@@ -22,6 +22,7 @@ public class ClientAllService implements ClientAll {
 
     private final ClientRepository clientRepository;
     private final ClientResponseMapper clientResponseMapper;
+
     @Override
     public List<ClientResponse> getAllClients() {
 
@@ -33,8 +34,9 @@ public class ClientAllService implements ClientAll {
                                 .withSelfRel()))
                 .toList();
     }
+
     public Page<ClientResponse> getAllClientsWithPagination(int page, int size) {
-        PageRequest pr = PageRequest.of(page,size);
+        PageRequest pr = PageRequest.of(page, size);
         var clientsPage = clientRepository.findAll(pr);
         var clients = clientsPage.stream()
                 .map(client -> clientResponseMapper

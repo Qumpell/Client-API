@@ -21,9 +21,9 @@ public enum GenerationKind {
         this.name = name;
     }
 
-    public static String getGenerationKind(int birthYear){
+    public static String getGenerationKind(int birthYear) {
         var genType = Arrays.stream(GenerationKind.values())
-                .filter(type -> type.startYear<=birthYear && type.endYear>=birthYear)
+                .filter(type -> type.startYear <= birthYear && type.endYear >= birthYear)
                 .findFirst();
         return genType.map(gen -> gen.name).orElse("unknown generation");
     }

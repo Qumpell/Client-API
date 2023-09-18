@@ -21,10 +21,12 @@ public class ClientHistoryServiceImpl implements ClientHistoryService {
     public List<ClientHistory> findAll() {
         return clientHistoryRepository.findAll();
     }
+
     @Override
     public List<ClientHistory> findAllByClientId(Long id) {
         return clientHistoryRepository.findAll(hasClientId(id));
     }
+
     @Override
     public ClientHistory create(ClientHistory clientHistory) {
         return clientHistoryRepository.save(clientHistory);

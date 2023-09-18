@@ -47,16 +47,17 @@ class ClientUpdateControllerTest {
         given(updateClientService.updateClient(any())).willReturn(updatedClient);
         //when //then
         mockMvc.perform(post("/client/client-update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updatedClient)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedClient)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.login").value("test"))
                 .andExpect(jsonPath("$.name").value("Jan"))
                 .andExpect(jsonPath("$.surname").value("Kowalski"))
                 .andExpect(jsonPath("$.generation").value("Alpha"));
 
-        verify(updateClientService,times(1)).updateClient(any());
+        verify(updateClientService, times(1)).updateClient(any());
     }
+
     @Test
     public void should_Return_NotFound_When_Client_Does_Not_Exists() throws Exception {
         //given
@@ -73,7 +74,7 @@ class ClientUpdateControllerTest {
                         .content(objectMapper.writeValueAsString(updatedClient)))
                 .andExpect(status().isNotFound());
 
-        verify(updateClientService,times(1)).updateClient(any());
+        verify(updateClientService, times(1)).updateClient(any());
     }
 
 

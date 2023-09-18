@@ -18,6 +18,6 @@ public class ClientOneService implements ClientOne {
     @Override
     public Client getOneClient(String login) {
         return clientRepository.findOne(hasLogin(login)).
-                    orElseThrow(() -> new EntityNotFoundException("Client not found",login));
+                orElseThrow(() -> new EntityNotFoundException("Client not found", login));
     }
 }

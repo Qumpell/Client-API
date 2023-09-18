@@ -4,7 +4,6 @@ import com.example.model.Address;
 import com.example.model.Client;
 import com.example.repository.AddressRepository;
 import com.example.repository.ClientRepository;
-import com.example.service.ClientService;
 import com.example.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,11 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 import java.util.Set;
-
-import static com.example.repository.ClientRepository.*;
-
 
 
 @Component
@@ -42,7 +37,7 @@ public class DbInitializer implements CommandLineRunner {
                 .name("KEK")
                 .surname("SSS")
                 .peselNumber("12345678")
-                .birthDate(LocalDate.of(1994,Month.AUGUST,12))
+                .birthDate(LocalDate.of(1994, Month.AUGUST, 12))
                 .build();
         Client client1 = client.toBuilder().build();
         client1.setLogin("a");
@@ -58,7 +53,7 @@ public class DbInitializer implements CommandLineRunner {
         Address address1 = Address.builder().country("Poland").build();
         client.setAddressSet(Set.of(address1));
         clientRepository.save(client);
-        clientRepository.saveAll(Set.of(client1,client2,client3,client4,client5));
+        clientRepository.saveAll(Set.of(client1, client2, client3, client4, client5));
 //        Address address2 = new Address("Belgium");
 //        Address address3 = new Address("Netherlands");
 //        Address address4 = new Address("Germany");
@@ -89,14 +84,14 @@ public class DbInitializer implements CommandLineRunner {
 //        addressRepository.deleteById(1L);
 
 //        clientRepository.deleteById(1L);
-   //     System.out.println(clientRepository.findAll());
+        //     System.out.println(clientRepository.findAll());
 //        client1.setAddressSet(Collections.emptySet());
 //        clientRepository.delete(client1);
 //        System.out.println(clientRepository.findById(6L));
 //        addressRepository.deleteById(1L);
 //        System.out.println(clientRepository.findAll());
 
-     //   System.out.println(clientRepository.findAllUsersByName("Jane"));
+        //   System.out.println(clientRepository.findAllUsersByName("Jane"));
 
 //        System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
 //
@@ -104,6 +99,6 @@ public class DbInitializer implements CommandLineRunner {
 //        System.out.println(onePesel);
 //        clientService.create(client);
 
-     //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
+        //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
     }
 }

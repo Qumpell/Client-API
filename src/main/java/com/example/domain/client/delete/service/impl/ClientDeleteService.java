@@ -17,13 +17,14 @@ public class ClientDeleteService implements DeleteClient {
 
     private final ClientRepository clientRepository;
 
-    public boolean clientExist(String login){
+    public boolean clientExist(String login) {
         Optional<Client> clientOptional = clientRepository.findOne(hasLogin(login));
         return clientOptional.isPresent();
     }
+
     @Override
     @Transactional
-    public void deleteClient(String login){
+    public void deleteClient(String login) {
         clientRepository.deleteByLogin(login);
     }
 
