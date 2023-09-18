@@ -5,9 +5,12 @@ import com.example.domain.client.update.mapper.ClientRequestMapper;
 import com.example.domain.client.update.service.impl.UpdateClientService;
 import com.example.dto.ClientRequest;
 import com.example.dto.ClientResponse;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+//import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiResponse;
+//import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -15,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -29,14 +32,15 @@ public class ClientUpdateController {
     private final ClientRequestMapper clientRequestMapper;
 
 
-    @ApiOperation(value = "Update client based of login")
-    @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorResponseWeb.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden", response = ErrorResponseWeb.class),
-            @ApiResponse(code = 404, message = "Not found", response = ErrorResponseWeb.class),
-            @ApiResponse(code = 500, message = "Unknown", response = ErrorResponseWeb.class)
-    })
+//    @ApiOperation(value = "Update client based of login")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 400, message = "Bad request", response = ErrorResponseWeb.class),
+//            @ApiResponse(c)
+//            @ApiResponse(code = 401, message = "Unauthorized"),
+//            @ApiResponse(code = 403, message = "Forbidden", response = ErrorResponseWeb.class),
+//            @ApiResponse(code = 404, message = "Not found", response = ErrorResponseWeb.class),
+//            @ApiResponse(code = 500, message = "Unknown", response = ErrorResponseWeb.class)
+//    })
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping(path = "/client-update", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ClientResponse> updateClient(

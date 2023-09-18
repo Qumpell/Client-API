@@ -2,6 +2,7 @@ package com.example.domain.client.add;
 
 import com.example.domain.client.add.service.impl.ClientAddService;
 import com.example.model.Client;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/client")
