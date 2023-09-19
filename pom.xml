@@ -15,16 +15,19 @@
     <description>relationships_between_entities</description>
     <properties>
         <java.version>17</java.version>
+        <swagger.version>3.0.0</swagger.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <version>3.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>2.2.222</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -52,6 +55,51 @@
             <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>jakarta.validation</groupId>-->
+        <!--            <artifactId>jakarta.validation-api</artifactId>-->
+        <!--            <version>2.0.2</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.10</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger2</artifactId>-->
+        <!--            <version>${swagger.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-boot-starter</artifactId>-->
+        <!--            <version>${swagger.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-swagger-ui</artifactId>-->
+        <!--            <version>${swagger.version}</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate</groupId>-->
+        <!--            <artifactId>hibernate-validator</artifactId>-->
+        <!--            <version>6.1.2.Final</version>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -59,6 +107,75 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.28</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pre-integration-prepare</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merged-report-generation</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

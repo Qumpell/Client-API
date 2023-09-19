@@ -4,7 +4,6 @@ import com.example.model.Address;
 import com.example.model.Client;
 import com.example.repository.AddressRepository;
 import com.example.repository.ClientRepository;
-import com.example.service.ClientService;
 import com.example.service.impl.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,11 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 import java.util.Set;
-
-import static com.example.repository.ClientRepository.*;
-
 
 
 @Component
@@ -34,23 +29,37 @@ public class DbInitializer implements CommandLineRunner {
 //        Client client1 = new Client("Adam", "Kowalski","012345678", LocalDate.of(1955, Month.JANUARY,12));
 //        Client client2 = new Client("Jane","Zabsaw","12345678",LocalDate.of(2001, Month.MAY,11));
 //        Client client3 = new Client("Max","Zabsaw","012345679",LocalDate.of(2010, Month.FEBRUARY,22));
-//        Client client4 = new Client("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
+//        Client client4 = new Clien,t("Steve","Wonder","98765432",LocalDate.of(1978, Month.SEPTEMBER,1));
 //        Client client5 = new Client("Steve","Wonder","67693232",LocalDate.of(1968, Month.MARCH,30));
 
         Client client = Client.builder()
+                .login("test")
                 .name("KEK")
                 .surname("SSS")
-                .peselNumber("1231414")
-                .birthDate(LocalDate.of(1994,Month.AUGUST,12))
+                .peselNumber("12345678")
+                .birthDate(LocalDate.of(1994, Month.AUGUST, 12))
                 .build();
+        Client client1 = client.toBuilder().build();
+        client1.setLogin("a");
+        Client client2 = client.toBuilder().build();
+        client2.setLogin("b");
+        Client client3 = client.toBuilder().build();
+        client3.setLogin("c");
+        Client client4 = client.toBuilder().build();
+        client4.setLogin("d");
+        Client client5 = client.toBuilder().build();
+        client5.setLogin("e");
 
-        Address address1 = new Address("Poland");
-        Address address2 = new Address("Belgium");
-        Address address3 = new Address("Netherlands");
-        Address address4 = new Address("Germany");
-        Address address5 = new Address("USA");
-        Address address6 = new Address("Canada");
-        Address address7 = new Address("Spain");
+        Address address1 = Address.builder().country("Poland").build();
+        client.setAddressSet(Set.of(address1));
+        clientRepository.save(client);
+        clientRepository.saveAll(Set.of(client1, client2, client3, client4, client5));
+//        Address address2 = new Address("Belgium");
+//        Address address3 = new Address("Netherlands");
+//        Address address4 = new Address("Germany");
+//        Address address5 = new Address("USA");
+//        Address address6 = new Address("Canada");
+//        Address address7 = new Address("Spain");
 //        client1.setAddress(address1);
 //        client2.setAddress(address2);
 //        client3.setAddress(address3);
@@ -75,21 +84,21 @@ public class DbInitializer implements CommandLineRunner {
 //        addressRepository.deleteById(1L);
 
 //        clientRepository.deleteById(1L);
-   //     System.out.println(clientRepository.findAll());
+        //     System.out.println(clientRepository.findAll());
 //        client1.setAddressSet(Collections.emptySet());
 //        clientRepository.delete(client1);
 //        System.out.println(clientRepository.findById(6L));
 //        addressRepository.deleteById(1L);
 //        System.out.println(clientRepository.findAll());
 
-     //   System.out.println(clientRepository.findAllUsersByName("Jane"));
+        //   System.out.println(clientRepository.findAllUsersByName("Jane"));
 
-        System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
+//        System.out.println(clientRepository.findAll(hasName("Steve").and(hasSurname("Wonder").and(hasPesel("67693232")))));
+//
+//        var onePesel = clientRepository.exists(hasName("Steve"));
+//        System.out.println(onePesel);
+//        clientService.create(client);
 
-        var onePesel = clientRepository.exists(hasName("Steve"));
-        System.out.println(onePesel);
-        clientService.create(client);
-
-     //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
+        //   System.out.println(clientRepository.findAll(hasCountry("Poland")));
     }
 }

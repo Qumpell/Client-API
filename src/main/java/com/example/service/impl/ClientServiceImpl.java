@@ -23,6 +23,17 @@ public class ClientServiceImpl implements ClientService {
     private final ClientHistoryService clientHistoryService;
     private AddressRepository addressRepository;
 
+
+    public void getAction(Client client, String action) {
+        switch (action) {
+            case "put" -> System.out.println("put");
+            case "get" -> System.out.println("get");
+            case "post" -> System.out.println("post");
+            case "delete" -> System.out.println("delete");
+            default -> System.out.println("uknown method");
+        }
+    }
+
     @Override
     public List<Client> findAll() {
         return clientRepository.findAll();
@@ -40,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
     public Client update(Long id, Client client) {
         client.setId(id);
         giveClientGeneration(client);
-        Client updatedClient  = clientRepository.save(client);
+        Client updatedClient = clientRepository.save(client);
         buildClientHistory(updatedClient.getId(), "UPDATE");
         return updatedClient;
     }
@@ -60,26 +71,28 @@ public class ClientServiceImpl implements ClientService {
         buildClientHistory(id, "DELETE");
         clientRepository.deleteById(id);
     }
+
     @Transactional
-    public void removeAddressFromClient(Long clientId, Long addressId){
+    public void removeAddressFromClient(Long clientId, Long addressId) {
         Client client = clientRepository.findById(clientId).orElse(null);
-        if(client != null){
+        if (client != null) {
             Address addressToRemove = addressRepository.findById(addressId).orElse(null);
-            if(addressToRemove != null){
+            if (addressToRemove != null) {
                 client.getAddressSet().remove(addressToRemove);
                 clientRepository.save(client);
             }
         }
     }
 
-    private void buildClientHistory(Long clientId, String action){
+    private void buildClientHistory(Long clientId, String action) {
         var history = ClientHistory.builder()
                 .action(action)
                 .clientId(clientId)
                 .build();
         clientHistoryService.create(history);
     }
-    private void giveClientGeneration(Client client){
+
+    private void giveClientGeneration(Client client) {
         var generationName = generationService.getGenerationOfDate(client.getBirthDate());
         client.setGeneration(generationName);
     }
