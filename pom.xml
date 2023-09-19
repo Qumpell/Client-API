@@ -15,7 +15,6 @@
     <description>relationships_between_entities</description>
     <properties>
         <java.version>17</java.version>
-        <swagger.version>3.0.0</swagger.version>
     </properties>
     <dependencies>
         <dependency>
@@ -60,11 +59,6 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>jakarta.validation</groupId>-->
-        <!--            <artifactId>jakarta.validation-api</artifactId>-->
-        <!--            <version>2.0.2</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -75,31 +69,21 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.10</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-swagger2</artifactId>-->
-        <!--            <version>${swagger.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-boot-starter</artifactId>-->
-        <!--            <version>${swagger.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.springfox</groupId>-->
-        <!--            <artifactId>springfox-swagger-ui</artifactId>-->
-        <!--            <version>${swagger.version}</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
             <version>3.1.2</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.hibernate</groupId>-->
-        <!--            <artifactId>hibernate-validator</artifactId>-->
-        <!--            <version>6.1.2.Final</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>3.1.3</version>
+        </dependency>
     </dependencies>
 
     <build>
