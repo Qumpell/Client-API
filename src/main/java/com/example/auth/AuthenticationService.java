@@ -11,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -25,6 +27,8 @@ public class AuthenticationService {
                 .surname(request.getLastname())
                 .login(request.getLogin())
                 .password(passwordEncoder.encode(request.getPassword()))
+                    .peselNumber(request.getPeselNumber())
+                    .birthDate(request.getBirthDate())
                     .role(Role.USER)
                 .build();
             clientRepository.save(client);
@@ -51,5 +55,9 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+    public boolean loginExists(String login){
+        Optional<Client> clientOptional = clientRepository.findByLogin(login);
+        return clientOptional.isPresent();
     }
 }

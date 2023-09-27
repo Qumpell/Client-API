@@ -24,6 +24,7 @@ public class ClientRequest implements Serializable {
     @NotEmpty
     private String surnameInput;
     @NotEmpty
+    @Size(min = 11,max = 11)
     private String clientIdInput;
     @NotEmpty
     @JsonFormat(pattern = "yyyy-MM-dd")
