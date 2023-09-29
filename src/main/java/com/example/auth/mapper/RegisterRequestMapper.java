@@ -15,6 +15,7 @@ public interface RegisterRequestMapper {
     @Mapping(target = "password", source = "password")
     @Mapping(target = "peselNumber", source = "peselNumber")
     @Mapping(target = "birthDate", source = "birthDate",dateFormat = "yyyy-MM-dd")
+    @Mapping(target = "addressSet", source = "addressSet")
     Client fromRegisterRequest(RegisterRequest request, @Context PasswordEncoder passwordEncoder);
 
     @AfterMapping

@@ -1,7 +1,9 @@
 package com.example.auth;
 
+import com.example.model.Address;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Builder
@@ -30,9 +33,11 @@ public class RegisterRequest implements Serializable {
     @Size(max = 30)
     private String password;
     @NotEmpty
-    @Size(min = 11,max = 11)
+    @Size(min = 11,max = 12)
     private String peselNumber;
-    @NotEmpty
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
+    @NotNull
+    private Set<Address> addressSet;
 }

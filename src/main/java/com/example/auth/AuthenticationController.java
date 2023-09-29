@@ -18,7 +18,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody @Valid RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ){
         if (service.loginExists(request.getLogin())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

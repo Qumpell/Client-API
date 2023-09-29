@@ -14,7 +14,8 @@ public interface ClientRequestMapper {
     @Mapping(target = "login", source = "loginInput")
     @Mapping(target = "name", source = "nameInput")
     @Mapping(target = "surname", source = "surnameInput")
-    @Mapping(target = "peselNumber", source = "clientIdInput")
+    @Mapping(target = "peselNumber", source = "peselNumberInput")
     @Mapping(target = "birthDate", source = "birthDateInput")
+    @Mapping(target = "addressSet",source = "addressSet")
     Client fromClientRequest(ClientRequest clientRequest);
 }
