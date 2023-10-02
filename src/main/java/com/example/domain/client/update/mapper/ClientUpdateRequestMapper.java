@@ -1,6 +1,6 @@
 package com.example.domain.client.update.mapper;
 
-import com.example.dto.ClientRequest;
+import com.example.dto.ClientUpdateRequest;
 import com.example.model.Client;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -16,6 +16,6 @@ public interface ClientRequestMapper {
     @Mapping(target = "surname", source = "surnameInput")
     @Mapping(target = "peselNumber", source = "peselNumberInput")
     @Mapping(target = "birthDate", source = "birthDateInput")
-    @Mapping(target = "addressSet",source = "addressSet")
-    Client fromClientRequest(ClientRequest clientRequest);
+    @Mapping(target = "addressSet",source = "addressesInput")
+    Client fromClientRequest(ClientUpdateRequest clientRequest);
 }

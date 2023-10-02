@@ -1,9 +1,11 @@
 package com.example.domain.client;
 
+import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.delete.ClientDeleteController;
 import com.example.domain.client.delete.service.impl.ClientDeleteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -16,10 +18,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ClientDeleteController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ClientDeleteControllerTest {
 
     @MockBean
     private ClientDeleteService clientDeleteService;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private MockMvc mockMvc;
 
