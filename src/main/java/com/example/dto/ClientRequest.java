@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class ClientRequest implements Serializable {
 
     @NotEmpty
@@ -33,5 +35,5 @@ public class ClientRequest implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDateInput;
     @NotNull
-    private Set<Address> addressSet;
+    private Set<Address> addressesInput;
 }
