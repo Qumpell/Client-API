@@ -2,9 +2,9 @@ package com.example.domain.client;
 
 import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.update.ClientUpdateController;
-import com.example.domain.client.update.mapper.ClientRequestMapper;
+import com.example.domain.client.update.mapper.ClientUpdateRequestMapper;
 import com.example.domain.client.update.service.impl.UpdateClientService;
-import com.example.dto.ClientRequest;
+import com.example.dto.ClientUpdateRequest;
 import com.example.dto.ClientResponse;
 import com.example.exception.EntityNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,10 +20,12 @@ import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class ClientUpdateControllerTest {
     @MockBean
-    private ClientRequestMapper clientRequestMapper;
+    private ClientUpdateRequestMapper clientRequestMapper;
 
     @MockBean
     private UpdateClientService updateClientService;
@@ -49,8 +51,8 @@ class ClientUpdateControllerTest {
     @Test
     public void should_Update_Client_When_Client_Exists() throws Exception {
         //given
-        ClientRequest updatedClient = ClientRequest.builder()
-                .loginInput("test")
+        String userToBeUpdatedLogin = "login";
+        ClientUpdateRequest updatedClient = ClientUpdateRequest.builder()
                 .nameInput("Jan")
                 .surnameInput("Kowalski")
                 .addressesInput(Collections.emptySet())
@@ -61,41 +63,41 @@ class ClientUpdateControllerTest {
                 .name("Jan")
                 .surname("Kowalski")
                 .generation("Z")
-                .login("test")
+                .login(userToBeUpdatedLogin)
                 .build();
-        given(updateClientService.updateClient(any())).willReturn(clientResponse);
+        given(updateClientService.updateClient(eq(userToBeUpdatedLogin),any())).willReturn(clientResponse);
         //when //then
-        mockMvc.perform(post("/client/client-update")
+        mockMvc.perform(put("/client/client-update/{login}","login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedClient)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.login").value("test"))
+                .andExpect(jsonPath("$.login").value("login"))
                 .andExpect(jsonPath("$.name").value("Jan"))
                 .andExpect(jsonPath("$.surname").value("Kowalski"))
                 .andExpect(jsonPath("$.generation").value("Z"));
 
-        verify(updateClientService, times(1)).updateClient(any());
+        verify(updateClientService, times(1)).updateClient(any(),any());
     }
 
     @Test
     public void should_Return_NotFound_When_Client_Does_Not_Exists() throws Exception {
         //given
-        ClientRequest updatedClient = ClientRequest.builder()
-                .loginInput("test")
+        String userToBeUpdatedLogin = "login";
+        ClientUpdateRequest updatedClient = ClientUpdateRequest.builder()
                 .nameInput("Jan")
                 .surnameInput("Kowalski")
                 .addressesInput(Collections.emptySet())
                 .birthDateInput(LocalDate.of(2000, 12, 11))
                 .peselNumberInput("12345678901")
                 .build();
-        given(updateClientService.updateClient(any())).willThrow(EntityNotFoundException.class);
+        given(updateClientService.updateClient(eq(userToBeUpdatedLogin),any())).willThrow(EntityNotFoundException.class);
         //when //then
-        mockMvc.perform(post("/client/client-update")
+        mockMvc.perform(put("/client/client-update/{login}","login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedClient)))
                 .andExpect(status().isNotFound());
 
-        verify(updateClientService, times(1)).updateClient(any());
+        verify(updateClientService, times(1)).updateClient(any(),any());
     }
 
 

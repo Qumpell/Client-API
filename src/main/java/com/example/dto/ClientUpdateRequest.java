@@ -18,15 +18,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class ClientRequest implements Serializable {
+public class ClientUpdateRequest implements Serializable {
 
     @NotEmpty
     @Size(max = 30)
-    private String loginInput;
-    @NotEmpty
-    @Size(max = 20)
     private String nameInput;
     @NotEmpty
+    @Size(max = 30)
     private String surnameInput;
     @NotEmpty
     @Size(min = 11,max = 12)

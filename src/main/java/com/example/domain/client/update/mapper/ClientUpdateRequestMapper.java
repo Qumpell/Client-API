@@ -10,8 +10,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClientRequestMapper {
-    @Mapping(target = "login", source = "loginInput")
+public interface ClientUpdateRequestMapper {
     @Mapping(target = "name", source = "nameInput")
     @Mapping(target = "surname", source = "surnameInput")
     @Mapping(target = "peselNumber", source = "peselNumberInput")
