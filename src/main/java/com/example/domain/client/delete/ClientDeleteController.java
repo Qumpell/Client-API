@@ -1,6 +1,7 @@
 package com.example.domain.client.delete;
 
 import com.example.domain.client.delete.service.impl.ClientDeleteService;
+import com.example.domain.client.exist.ClientExistsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientDeleteController {
 
     private final ClientDeleteService clientDeleteService;
+    private final ClientExistsService clientExistsService;
 
 
     @Operation(description = "Delete a client by its login")
@@ -25,7 +27,7 @@ public class ClientDeleteController {
     @DeleteMapping("/{login}")
     public ResponseEntity<Void> deleteClient(@PathVariable String login) {
 
-        if (clientDeleteService.clientExist(login)) {
+        if (clientExistsService.clientExists(login)) {
             clientDeleteService.deleteClient(login);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

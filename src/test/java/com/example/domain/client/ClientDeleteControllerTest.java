@@ -3,6 +3,7 @@ package com.example.domain.client;
 import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.delete.ClientDeleteController;
 import com.example.domain.client.delete.service.impl.ClientDeleteService;
+import com.example.domain.client.exist.ClientExistsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,6 +25,8 @@ public class ClientDeleteControllerTest {
     @MockBean
     private ClientDeleteService clientDeleteService;
     @MockBean
+    private ClientExistsService existsService;
+    @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +36,7 @@ public class ClientDeleteControllerTest {
     public void should_Return_No_Content_When_Client_Is_Deleted() throws Exception {
 
         //given
-        given(clientDeleteService.clientExist(any())).willReturn(true);
+        given(existsService.clientExists(any())).willReturn(true);
         doNothing().when(clientDeleteService).deleteClient(any());
 
         //when //then
@@ -41,7 +44,7 @@ public class ClientDeleteControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(clientDeleteService, times(1)).clientExist(any());
+        verify(existsService, times(1)).clientExists(any());
         verify(clientDeleteService, times(1)).deleteClient(any());
     }
 
@@ -50,14 +53,14 @@ public class ClientDeleteControllerTest {
     public void should_Return_Not_Found_When_Client_Does_Not_Exists() throws Exception {
 
         //given
-        given(clientDeleteService.clientExist(any())).willReturn(false);
+        given(existsService.clientExists(any())).willReturn(false);
 
         //when //then
         mockMvc.perform(delete("/client/testLogin")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(clientDeleteService, times(1)).clientExist(any());
+        verify(existsService, times(1)).clientExists(any());
     }
 }
 
