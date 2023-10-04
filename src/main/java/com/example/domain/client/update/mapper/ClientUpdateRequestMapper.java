@@ -16,5 +16,5 @@ public interface ClientUpdateRequestMapper {
     @Mapping(target = "peselNumber", source = "peselNumberInput")
     @Mapping(target = "birthDate", source = "birthDateInput")
     @Mapping(target = "addressSet",source = "addressesInput")
-    Client fromClientRequest(ClientUpdateRequest clientRequest);
+    Client fromClientUpdateRequest(ClientUpdateRequest clientRequest);
 }

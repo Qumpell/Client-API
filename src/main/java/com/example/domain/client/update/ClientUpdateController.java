@@ -35,7 +35,7 @@ public class ClientUpdateController {
 
         var updatedClient = updateClientService.updateClient(
                 login,
-                clientRequestMapper.fromClientRequest(clientRequest)
+                clientRequestMapper.fromClientUpdateRequest(clientRequest)
         );
 
         Link link = linkTo(ClientUpdateController.class).slash(updatedClient.getLogin()).withSelfRel();

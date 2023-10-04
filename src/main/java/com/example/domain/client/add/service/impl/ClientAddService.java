@@ -2,14 +2,11 @@ package com.example.domain.client.add.service.impl;
 
 import com.example.domain.client.add.service.AddClient;
 import com.example.model.Client;
+import com.example.model.Role;
 import com.example.repository.ClientRepository;
 import com.example.service.impl.GenerationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-
-import static com.example.repository.ClientRepository.hasLogin;
 
 @Service
 @AllArgsConstructor
@@ -21,12 +18,8 @@ public class ClientAddService implements AddClient {
     @Override
     public Client addClient(Client client) {
         giveClientGeneration(client);
+        client.setRole(Role.USER);
         return clientRepository.save(client);
-    }
-
-    public boolean clientExist(Client client) {
-        Optional<Client> clientOptional = clientRepository.findOne(hasLogin(client.getLogin()));
-        return clientOptional.isPresent();
     }
 
     private void giveClientGeneration(Client client) {

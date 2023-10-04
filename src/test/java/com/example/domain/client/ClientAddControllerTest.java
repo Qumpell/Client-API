@@ -1,14 +1,21 @@
 package com.example.domain.client;
 
+import com.example.auth.RegisterRequest;
+import com.example.auth.mapper.RegisterRequestMapper;
+import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.add.ClientAddController;
 import com.example.domain.client.add.service.impl.ClientAddService;
+import com.example.domain.client.exist.ClientExistsService;
+import com.example.domain.client.update.mapper.ClientResponseMapper;
 import com.example.model.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -22,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ClientAddController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ClientAddControllerTest {
 
     @Autowired
@@ -30,22 +38,32 @@ public class ClientAddControllerTest {
     ObjectMapper objectMapper;
     @MockBean
     private ClientAddService clientAddService;
-
+    @MockBean
+    private ClientExistsService clientExistsService;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @MockBean
+    private ClientResponseMapper responseMapper;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+    @MockBean
+    private RegisterRequestMapper requestMapper;
 
     @Test
     public void should_Return_Http_Status_Created_When_Client_Is_Successfully_Created() throws Exception {
         //given
-        Client clientToCreate = Client.builder()
-                .login("testLogin")
-                .name("Jan")
-                .surname("Kowalski")
+        RegisterRequest clientToCreate = RegisterRequest.builder()
+                .login("login")
                 .addressSet(Collections.emptySet())
-                .birthDate(LocalDate.of(12, 1, 12))
-                .peselNumber("12345678")
+                .firstname("Jan")
+                .lastname("Kowalski")
+                .birthDate(LocalDate.of(2000, 12, 11))
+                .password("123")
+                .peselNumber("12345678911")
                 .build();
 
-        given(clientAddService.clientExist(any())).willReturn(false);
-        given(clientAddService.addClient(any())).willReturn(clientToCreate);
+        given(clientExistsService.clientExists(any())).willReturn(false);
+        given(clientAddService.addClient(any())).willReturn(any(Client.class));
 
         //when //then
         mockMvc.perform(post("/client/add")
@@ -53,7 +71,7 @@ public class ClientAddControllerTest {
                         .content(objectMapper.writeValueAsString(clientToCreate)))
                 .andExpect(status().isCreated());
 
-        verify(clientAddService, times(1)).clientExist(any());
+        verify(clientExistsService, times(1)).clientExists(any());
         verify(clientAddService, times(1)).addClient(any());
 
     }
@@ -61,16 +79,17 @@ public class ClientAddControllerTest {
     @Test
     public void should_Return_Http_Status_Conflict_When_Client_Already_Exists() throws Exception {
         //given
-        Client clientToCreate = Client.builder()
-                .login("testLogin")
-                .name("Jan")
-                .surname("Kowalski")
+        RegisterRequest clientToCreate = RegisterRequest.builder()
+                .login("login")
                 .addressSet(Collections.emptySet())
-                .birthDate(LocalDate.of(12, 1, 12))
-                .peselNumber("12345678")
+                .firstname("Jan")
+                .lastname("Kowalski")
+                .birthDate(LocalDate.of(2000, 12, 11))
+                .password("123")
+                .peselNumber("12345678911")
                 .build();
 
-        given(clientAddService.clientExist(any())).willReturn(true);
+        given(clientExistsService.clientExists(any())).willReturn(true);
 
         //when //then
         mockMvc.perform(post("/client/add")
@@ -78,6 +97,6 @@ public class ClientAddControllerTest {
                         .content(objectMapper.writeValueAsString(clientToCreate)))
                 .andExpect(status().isConflict());
 
-        verify(clientAddService, times(1)).clientExist(any());
+        verify(clientExistsService, times(1)).clientExists(any());
     }
 }
