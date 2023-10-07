@@ -40,18 +40,6 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-
-    private void saveClientToken(Client client, String jwtToken) {
-        var token = Token.builder()
-                .client(client)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
-        tokenRepository.save(token);
-    }
-
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
         authenticationManager.authenticate(
@@ -66,11 +54,36 @@ public class AuthenticationService {
                                 new EntityNotFoundException("Client not found with login" + request.getLogin(),
                                         request.getLogin()));
         var jwtToken = jwtService.generateToken(client);
+        revokeAllClientTokens(client);
         saveClientToken(client, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
+   private void revokeAllClientTokens(Client client){
+        var validClientTokens = tokenRepository.findAllValidTokensByClient(client.getLogin());
+        if(validClientTokens.isEmpty()){
+            return;
+        }
+        validClientTokens.forEach(t -> {
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+        tokenRepository.saveAll(validClientTokens);
+   }
+
+    private void saveClientToken(Client client, String jwtToken) {
+        var token = Token.builder()
+                .client(client)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
+
     public boolean loginExists(String login){
         Optional<Client> clientOptional = clientRepository.findByLogin(login);
         return clientOptional.isPresent();
