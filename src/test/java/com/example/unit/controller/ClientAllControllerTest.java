@@ -1,4 +1,4 @@
-package com.example.domain.client;
+package com.example.unit.controller;
 
 import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.clientall.ClientAllController;

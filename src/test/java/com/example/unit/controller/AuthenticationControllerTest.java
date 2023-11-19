@@ -1,7 +1,7 @@
 package com.example.unit.controller;
 
 import com.example.auth.AuthenticationController;
-import com.example.auth.AuthenticationRequest;
+import com.example.dto.AuthenticationRequest;
 import com.example.auth.AuthenticationService;
 import com.example.auth.RegisterRequest;
 import com.example.configuration.JwtAuthenticationFilter;

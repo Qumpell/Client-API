@@ -1,4 +1,4 @@
-package com.example.domain.client;
+package com.example.unit.controller;
 
 import com.example.auth.RegisterRequest;
 import com.example.auth.mapper.RegisterRequestMapper;

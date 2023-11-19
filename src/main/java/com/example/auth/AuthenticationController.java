@@ -1,5 +1,7 @@
 package com.example.auth;
 
+import com.example.dto.AuthenticationRequest;
+import com.example.dto.AuthenticationResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -2,6 +2,8 @@ package com.example.auth;
 
 import com.example.auth.mapper.RegisterRequestMapper;
 import com.example.configuration.JwtService;
+import com.example.dto.AuthenticationRequest;
+import com.example.dto.AuthenticationResponse;
 import com.example.exception.EntityNotFoundException;
 import com.example.model.Client;
 import com.example.model.Role;
