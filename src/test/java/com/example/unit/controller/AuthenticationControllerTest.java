@@ -1,73 +1,128 @@
 package com.example.unit.controller;
 
-import com.example.auth.*;
+import com.example.auth.AuthenticationController;
+import com.example.auth.AuthenticationRequest;
+import com.example.auth.AuthenticationService;
+import com.example.auth.RegisterRequest;
+import com.example.configuration.JwtAuthenticationFilter;
+import com.example.exception.EntityNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import java.time.LocalDate;
+import java.util.HashSet;
 
-@ExtendWith(MockitoExtension.class)
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(AuthenticationController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class AuthenticationControllerTest {
 
-    @InjectMocks
-    private AuthenticationController authenticationController;
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
     private AuthenticationService authenticationService;
 
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+
+
     @Test
-    public void should_Return_OK_Status_When_Client_Is_Successfully_Registered() {
-        RegisterRequest request = new RegisterRequest();
-        request.setLogin("test");
-        request.setPassword("password");
+    public void should_Return_OK_Status_When_Client_Is_Successfully_Registered() throws Exception {
+        //given
+        RegisterRequest request = RegisterRequest.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .login("john.doe")
+                .password("password123")
+                .peselNumber("12345678901")
+                .birthDate(LocalDate.of(1990, 5, 15))
+                .addressSet(new HashSet<>())
+                .build();
 
-        when(authenticationService.loginExists(request.getLogin())).thenReturn(false);
 
-        ResponseEntity<AuthenticationResponse> responseEntity = authenticationController.register(request);
+        given(authenticationService.loginExists(request.getLogin())).willReturn(false);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // when
+         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        resultActions.andExpect(status().isOk());
+        verify(authenticationService, times(1)).loginExists(any());
     }
-
     @Test
-    public void should_Return_CONFLICT_Status_When_Client_Login_Already_Exists() {
-        RegisterRequest request = new RegisterRequest();
-        request.setLogin("test");
-        request.setPassword("password");
+    public void should_Return_CONFLICT_Status_When_Client_Login_Already_Exists() throws Exception {
+        //given
+        RegisterRequest request = RegisterRequest.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .login("john.doe")
+                .password("password123")
+                .peselNumber("12345678901")
+                .birthDate(LocalDate.of(1990, 5, 15))
+                .addressSet(new HashSet<>())
+                .build();
 
-        when(authenticationService.loginExists(request.getLogin())).thenReturn(true);
+        given(authenticationService.loginExists(request.getLogin())).willReturn(true);
 
-        ResponseEntity<AuthenticationResponse> responseEntity = authenticationController.register(request);
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
 
-        assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+        //then
+        resultActions.andExpect(status().isConflict());
+        verify(authenticationService, times(1)).loginExists(any());
     }
-
     @Test
-    public void should_Return_OK_Status_When_Client_Is_Successfully_Authenticated() {
+    public void should_Return_OK_Status_When_Client_Is_Successfully_Authenticated() throws Exception {
+        //given
+        AuthenticationRequest request = AuthenticationRequest.builder()
+                .login("john.doe")
+                .password("password123")
+                .build();
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/auth/authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+    @Test
+    public void should_Return_NotFound_Status_When_Nonexistent_Client_Tries_To_Authenticate() throws Exception {
+        // given
         AuthenticationRequest request = new AuthenticationRequest();
-        request.setLogin("test");
+        request.setLogin("nonexistentUser");
         request.setPassword("password");
 
-        ResponseEntity<AuthenticationResponse> responseEntity = authenticationController.authenticate(request);
+        doThrow(EntityNotFoundException.class).when(authenticationService).authenticate(any());
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        // when
+         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/auth/authenticate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)));
+
+         // then
+        resultActions.andExpect(status().isNotFound());
+        verify(authenticationService, times(1)).authenticate(any());
     }
-    //TODO
-//    @Test
-//    public void should_Return_Not_Found_Status_When_Client_Was_Not_Found_By_Login() {
-//        AuthenticationRequest request = new AuthenticationRequest();
-//        request.setLogin("test");
-//        request.setPassword("password");
-//
-//        when(authenticationService.authenticate(request)).thenThrow(EntityNotFoundException.class);
-//
-//        ResponseEntity<AuthenticationResponse> responseEntity = authenticationController.authenticate(request);
-//
-//
-//        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-//    }
+
 }
