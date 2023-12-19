@@ -25,7 +25,7 @@ public class ClientUpdateController {
     private final UpdateClientService updateClientService;
     private final ClientUpdateRequestMapper clientRequestMapper;
 
-    @Operation(summary = "Update client by its login")
+    @Operation(description = "Update client by its login")
     @ApiResponse(responseCode = "200", description = "Updated the client")
     @ApiResponse(responseCode = "404", description = "Client not found")
     @PutMapping(path = "/client-update/{login}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -137,7 +137,7 @@ class AuthenticationServiceTest {
     void should_Return_False_When_Login__Does_Not_Exist() {
         // given
         String login = "testLogin";
-        //when(clientRepository.findByLogin(login)).thenReturn(Optional.of(new Client()));
+
         when(clientRepository.findByLogin(login)).thenReturn(Optional.empty());
 
         // when
