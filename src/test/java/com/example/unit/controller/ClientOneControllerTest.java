@@ -1,5 +1,6 @@
-package com.example.domain.client;
+package com.example.unit.controller;
 
+import com.example.configuration.JwtAuthenticationFilter;
 import com.example.domain.client.clientone.ClientOneController;
 import com.example.domain.client.clientone.service.impl.ClientOneService;
 import com.example.domain.client.update.mapper.ClientResponseMapper;
@@ -9,6 +10,7 @@ import com.example.model.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -23,12 +25,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ClientOneController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class ClientOneControllerTest {
 
     @MockBean
     private ClientResponseMapper clientResponseMapper;
     @MockBean
     private ClientOneService clientOneService;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private MockMvc mockMvc;
     @Autowired

@@ -5,5 +5,5 @@ import com.example.model.Client;
 
 public interface UpdateClient {
 
-    ClientResponse updateClient(Client client);
+    ClientResponse updateClient(String login, Client client);
 }

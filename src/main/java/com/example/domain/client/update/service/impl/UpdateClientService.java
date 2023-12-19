@@ -21,8 +21,8 @@ public class UpdateClientService implements UpdateClient {
     private final ClientResponseMapper clientResponseMapper;
 
     @Override
-    public ClientResponse updateClient(Client clientInput) {
-        var clientData = getClient(clientInput);
+    public ClientResponse updateClient(String userToBeUpdatedLogin, Client clientInput) {
+        var clientData = getExistingClient(userToBeUpdatedLogin);
         var generation = generationService.getGenerationOfDate(clientInput.getBirthDate());
         try {
             clientData.setName(clientInput.getName());
@@ -30,7 +30,6 @@ public class UpdateClientService implements UpdateClient {
             clientData.setPeselNumber(clientInput.getPeselNumber());
             clientData.setBirthDate(clientInput.getBirthDate());
             clientData.setGeneration(generation);
-            clientData.setLogin(clientInput.getLogin());
             clientData = clientRepository.save(clientData);
             return clientResponseMapper.toClientResponse(clientData);
         } catch (Exception e) {
@@ -40,8 +39,8 @@ public class UpdateClientService implements UpdateClient {
 
     }
 
-    public Client getClient(Client client) {
-        return clientRepository.findOne(hasLogin(client.getLogin())).
-                orElseThrow(() -> new EntityNotFoundException("Client not found", client.getLogin()));
+    public Client getExistingClient(String clientLogin) {
+        return clientRepository.findOne(hasLogin(clientLogin)).
+                orElseThrow(() -> new EntityNotFoundException("Client not found", clientLogin));
     }
 }
